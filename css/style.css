@@ -1,110 +1,115 @@
-/* 공통 */
-* {
-  margin: 0;
-  padding: 0;
+body {
+  text-align: center;
+  background-color: black;
 }
 
 button {
   outline: none;
-  border: none;
   cursor: pointer;
+  border: none;
+  background: white;
+  border-radius: 20%;
+  padding: 0;
 }
 
-/* 게임 */
 .game {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-radius: 20px;
   width: 800px;
   height: 500px;
   margin: auto;
-  display: flex;
-  flex-direction: column;
-  background: url("../img/background.png") center/cover;
+  margin-top: 50px;
+  background: url('../img/background.png') center/cover no-repeat;
 }
 
-.game_header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+header {
+  text-align: center;
+  padding: 8px;
 }
 
-.game_btn {
+.game__button {
   width: 60px;
   height: 60px;
+  font-size: 24px;
   background-color: wheat;
   border: 4px solid black;
-  border-radius: 6px;
-  font-size: 24px;
-  transition: transform 300ms ease-in;
+  transition: transfrom 300ms ease-in;
 }
 
-.game_btn:hover {
+.game__button:hover {
   transform: scale(1.1);
 }
 
-.game_timer {
+.game__timer {
+  display: block;
   width: 100px;
+  margin: auto;
+  margin-top: 8px;
+  padding: 0 20px;
   background-color: white;
-  text-align: center;
-  border: 4px solid black;
+  border-radius: 10px;
   font-size: 32px;
-  border-radius: 6px;
-  margin-top: 10px;
-  visibility: hidden;
+  border: 5px solid black;
 }
 
-.game_score {
+.game__score {
+  display: inline-block;
   width: 50px;
   height: 50px;
-  font-size: 48px;
-  text-align: center;
-  border-radius: 50%;
+  font-size: 46px;
+  margin-top: 4px;
   background-color: darksalmon;
   color: white;
-  margin-top: 10px;
-  border: 4px solid black;
-  visibility: hidden;
+  border-radius: 50%;
+  border: 3px solid black;
 }
 
-.game_field {
+.game__field {
+  position: relative;
   width: 100%;
   height: 100%;
-  margin-top: 50px;
-  position: relative;
+  margin-top: 40px;
 }
 
-/* 팝업 */
 .pop-up {
-  width: 400px;
-  height: 140px;
-  margin: auto;
-  display: block;
-  padding: 20px;
   border-radius: 20px;
+  width: 400px;
+  height: 124px;
+  margin: auto;
   background-color: #00000090;
   color: white;
-  text-align: center;
-  transform: translateY(-120%);
+  transform: translateY(-150%);
 }
 
-.pop-up-hide {
+.pop-up--hide {
   display: none;
 }
 
-.pop-up_refresh_btn {
+.pop-up__refresh {
   width: 60px;
   height: 60px;
   font-size: 24px;
   background-color: wheat;
   border: 2px solid black;
-  border-radius: 50%;
-  transition: transform 300ms ease-in;
+  transition: transfrom 300ms ease-in;
 }
 
-.pop-up_refresh_btn:hover {
+.pop-up__refresh:hover {
   transform: scale(1.1);
 }
 
-.pop-up_message {
+.pop-up__message {
   display: block;
-  font-size: 30px;
+  font-size: 38px;
+}
+
+.hide {
+  display: none;
+}
+
+.carrot:hover,
+.bug:hover {
+  transform: scale(1.1);
 }
