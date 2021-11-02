@@ -1,13 +1,12 @@
 'use strict';
 import Popup from "./popup.js";
+import Field from "./field.js";
 
 const CARROT_SIZE = 80;
 const CARROT_COUNT = 20;
 const BUG_COUNT = 20;
 const GAME_DURATION_SEC = 20;
 
-const field = document.querySelector('.game__field');
-const fieldRect = field.getBoundingClientRect();
 const gameBtn = document.querySelector('.game__button');
 const timerIndicator = document.querySelector('.game__timer');
 const gameScore = document.querySelector('.game__score');
@@ -28,7 +27,6 @@ gameFinishBanner.setClickListener(() => {
   startGame();
 });
 
-field.addEventListener('click', onFieldClick);
 gameBtn.addEventListener('click', () => {
   if (started) {
     stopGame();
@@ -114,25 +112,6 @@ function initGame() {
   // 벌레와 당근을 생성한뒤 field에 추가해줌
   addItem('carrot', CARROT_COUNT, 'img/carrot.png');
   addItem('bug', BUG_COUNT, 'img/bug.png');
-}
-
-function onFieldClick(event) {
-  if (!started) {
-    return;
-  }
-  const target = event.target;
-  if (target.matches('.carrot')) {
-    // 당근!!
-    target.remove();
-    score++;
-    playSound(carrotSound);
-    updateScoreBoard();
-    if (score === CARROT_COUNT) {
-      finishGame(true);
-    }
-  } else if (target.matches('.bug')) {
-    finishGame(false);
-  }
 }
 
 function playSound(sound) {
