@@ -11,7 +11,7 @@ export default class Popup {
     
     this.popUpRefresh.addEventListener('click', () => {
       this.onClick && this.onClick();
-      hide();
+      this.hide();
     });
   }
 
