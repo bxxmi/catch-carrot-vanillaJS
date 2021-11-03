@@ -1,5 +1,7 @@
 'use strict'
 
+import * as sound from "./sound.js";
+
 const carrotSound = new Audio('./sound/carrot_pull.mp3');
 const CARROT_SIZE = 80;
 
@@ -9,18 +11,15 @@ export default class Field {
     this.bugCount = bugCount;
     this.field = document.querySelector('.game__field');
     this.fieldRect = this.field.getBoundingClientRect();
-
-    this.field.addEventListener('click', () => {
-      this.onClick && this.onClick();
-    });
+    this.field.addEventListener('click', this.onClick);
   }
 
   init() {
-    field.innerHTML = '';
+    this.field.innerHTML = '';
     // 자바스크립트에서는 통용적으로 private한 멤버변수를 만들지 않기 때문에
     // 언더스코어(_)를 사용해서 private 한 멤버변수 즉, 외부에서 불러오면 안되는 것을 표현한다.
-    this._addItem('carrot', this.CARROT_COUNT, 'img/carrot.png');
-    this._addItem('bug', this.BUG_COUNT, 'img/bug.png');
+    this._addItem('carrot', this.carrotCount, 'img/carrot.png');
+    this._addItem('bug', this.bugCount, 'img/bug.png');
   }
 
   setClickListener(onItemClick) {
@@ -42,15 +41,16 @@ export default class Field {
       const y = randomNumber(y1, y2);
       item.style.left = `${x}px`;
       item.style.top = `${y}px`;
-      field.appendChild(item);
+      this.field.appendChild(item);
     }
   }
 
-  onClick(event) {
+  // 바인딩 방법 3
+  onClick = event => {
     const target = event.target;
     if (target.matches('.carrot')) {
       target.remove();
-      playSound(carrotSound);
+      sound.playCarrot();
       this.onItemClick && this.onItemClick('carrot');
     } else if (target.matches('.bug')) {
       this.onItemClick && this.onItemClick('bug');
@@ -60,9 +60,4 @@ export default class Field {
 
 function randomNumber(min, max) {
   return Math.random() * (max - min) + min;
-}
-
-function playSound(sound) {
-  sound.currentTime = 0;
-  sound.play();
 }
