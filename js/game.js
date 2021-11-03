@@ -1,12 +1,19 @@
 'use strict';
 
+import { Field, ItemType } from "./field.js";
 import * as sound from "./sound.js";
-import Field from "./field.js";
+
+// freeze: 자바스크립트로 타입을 보장
+export const Reason = Object.freeze({
+  win: 'win',
+  lose: 'lose',
+  cancle: 'cancle'
+});
 
 // ✅ Builder Pattern
 // 생성자의 인자가 3개 이상이 되면 그것이 어떤 역할을 하는 지 
 // 쉽게 파악하기 어렵다. 때문에, 빌더 패턴으로 정리를 하는 것이 좋다.
-export default class GameBuilder {
+export class GameBuilder {
   gameDuration(duration) {
     this.gameDuration = duration
     // 클래스 자체를 리턴함
@@ -46,7 +53,7 @@ class Game {
 
     this.gameBtn.addEventListener('click', () => {
       if (this.started) {
-        this.stop();
+        this.stop(Reason.cancle);
       } else {
         this.start();
       }
@@ -73,26 +80,12 @@ class Game {
     sound.playBackground();
   }
   
-  stop() {
+  stop(reason) {
     this.started = false;
     this.stopGameTimer();
     this.hideGameButton();
-    sound.playAlert();
     sound.stopBackground();
-    this.onGameStop && this.onGameStop('cancel');
-  }
-
-  finish(win) {
-    this.started = false;
-    this.hideGameButton();
-    if (win) {
-      sound.playWin();
-    } else {
-      sound.playBug();
-    }
-    this.stopGameTimer();
-    sound.stopBackground();
-    this.onGameStop && this.onGameStop(win ? 'win' : 'lose');
+    this.onGameStop && this.onGameStop(reason);
   }
 
   onItemClick = (item) => {
@@ -100,14 +93,14 @@ class Game {
       return;
     }
   
-    if (item === 'carrot') {
+    if (item === ItemType.carrot) {
       this.score++;
       this.updateScoreBoard();
       if (this.score === this.carrotCount) {
-        this.finish(true);
+        this.stop(Reason.win);
       }
-    } else if (item === 'bug') {
-      this.finish(false);
+    } else if (item === ItemType.bug) {
+      this.stop(Reason.lose);
     }
   };
 
@@ -133,7 +126,7 @@ class Game {
     this.timer = setInterval(() => {
       if (remainingTimeSec <= 0) {
         clearInterval(this.timer);
-        this.finish(this.score === this.carrotCount);
+        this.stop(this.score === this.carrotCount ? Reason.win : Reason.lose);
         return;
       }
       this.updateTimerText(--remainingTimeSec);
