@@ -3,7 +3,38 @@
 import * as sound from "./sound.js";
 import Field from "./field.js";
 
-export default class Game {
+// ✅ Builder Pattern
+// 생성자의 인자가 3개 이상이 되면 그것이 어떤 역할을 하는 지 
+// 쉽게 파악하기 어렵다. 때문에, 빌더 패턴으로 정리를 하는 것이 좋다.
+export default class GameBuilder {
+  gameDuration(duration) {
+    this.gameDuration = duration
+    // 클래스 자체를 리턴함
+    // array 처럼 자체를 리턴하면 메소드 체이닝으로 사용할 수 있음
+    return this;
+  }
+
+  carrotCount(num) {
+    this.carrotCount = num;
+    return this;
+  }
+
+  bugCount(num) {
+    this.bugCount = num;
+    return this;
+  }
+
+  build() {
+    return new Game(
+      this.gameDuration,
+      this.carrotCount,
+      this.bugCount
+    );
+  }
+}
+
+// Game을 생성하는 방법은 아무도 모르게 export default 키워드 제거
+class Game {
   constructor(gameDuration, carrotCount, bugCount) {
     this.gameDuration = gameDuration;
     this.carrotCount = carrotCount;
